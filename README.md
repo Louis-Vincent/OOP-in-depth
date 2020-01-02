@@ -15,7 +15,7 @@ pretentious since this guide was roughly made without any correction and
 possibly many spelling mistakes. This is not really pollish, but it is an
 honest effort to share my view/knowledge on the subject and I hope people
 learn from it. This guide attempts to propose a good intuition about OOP
-without getting into fancy words.
+without getting too fancy.
 
 # Object-oriented in general
 
