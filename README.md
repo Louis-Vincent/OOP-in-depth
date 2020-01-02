@@ -426,8 +426,7 @@ with objects (for dynamic metaprogramming). But let things be simple for a while
 Metaprogramming in Ruby will be addressed in another guide.
 
 So! Class are static beings. Onced you compile your program they disappear. They are
-blueprints for your objets. This is the case many languages like C++, NIT, Eiffel and OCaml (maybe)
-if I'm not mistaken.
+blueprints for your objets. This is the case for many languages like C++, NIT, Eiffel and OCaml (maybe)
 
 ## Prototype-based
 
