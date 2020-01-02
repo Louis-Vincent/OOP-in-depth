@@ -106,7 +106,7 @@ In any bad school in the universe, we will give you the following half-ass defin
 
 _Polymorphism_ : "_poly_" is for "_many_" and morphism for "_forms_", thus "many-forms".
 
-However, the definition is pretty f@!cking useless considering there's many kind
+However, the definition is pretty useless considering there's many kind
 of polymorphism. But at school and in OOP, when we talk about "polymorphism" we mainly
 refer to subtype polymorphism.
 
@@ -414,12 +414,12 @@ prototype-based.
 Class based languages uses classes to describe the content and behavior of your objects.
 In most statically typed languages, classes do not live outside the compilation process.
 
-Well, this is a lie. To be more precise, classe may live during the runtime. However, they
+Well, this is a lie. To be more precise, classes may live during the runtime, however, they
 are mostly used to store the virtual function table and other implementation detail
 information.
 
 What I'm trying to say is the concept of a "class" only exist during your development and
-compilation process. At the end of the day, only objects live during the process.
+compilation. At the end of the day, only objects live at runtime.
 
 This is kinda another lie since we could argue that some language, like Ruby, unify class
 with objects (for dynamic metaprogramming). But let things be simple for a while.
@@ -470,7 +470,7 @@ And I have no more characterics of proto-based that come to my mind.
 
 ## Creating objects from _ex nihilo_
 
-The expression _ex nihilo_ means "_out of nothing_", without a constructor or a class. 
+The expression _ex nihilo_ means "_out of nothing_", thus without a constructor or a class. 
 Prototype-based languages always provide a way to create them via a keyword or special syntax. 
 In javascript, this is done via object literal construction.
 
@@ -597,39 +597,91 @@ foo() == window;	// true
 ```
 
 By default every function call must have a receiver, if no receiver is prefixed to
-the call like `object.foo`, then javascript implicitly add `this` before calling a function :
-`this.foo()`.
+the call like `<receiver>.foo`, then javascript implicitly bind `this` before calling a function.
+This is the similar to implicitly adding `this` before every function call : `<this>.foo`.
 
 This is pretty standard in most OO language to have a global object and the implicit
 `this` binded to every function call, this is the case for Ruby and NIT too.
+You might think this is a weird behavior, but the nature of OOP require that every message
+is sent to a receiver. Javascript is no exception to the rule since everything is an
+object (even function).
 
-Due to the nature of object oriented nature, function call is replaced with message sending.
-By doing so, every message needs to be sent to an object which we call the receiver.
+In fact, Javascript's `this` is no different from any mainstream language. The akwardness
+of `this` comes from the fact that function aren't bound to any receiver by default.
 
-However, what is less commun is that any function can be bound to any other object at runtime:
+If we compare javascript with Ruby :
 
-```{js}
-function foo() {
-	return this;
-}
+```ruby
+class Toto
+	def foo
+		return self.method(:bar)
+	end
 
-var x = {}
-// `call` invoke a function with an extra argument: the value of `this`.
-foo.call(x) == x; // true
+	def bar
+		return self
+	end
+end
+
+t = Toto.new
+f = t.foo()
+p f.call() == t # true
+p f.receiver == t # true
 ```
 
-Furthermore, you can derive any function by binding any object :
+And the javascript equivalent :
 
-```{js}
-function foo() {
-	return this;
+```javascript
+var t = {
+	foo: function() {
+		return this.bar // even if I prefix `bar` by `this`, the function object returned
+						// by `foo` will still be unbound to `t`.
+	},
+	bar: function() {
+		return this
+	}
 }
 
-var x = {}
-// `call` invoke a function with an extra argument: the value of `this`.
-var foo2 = foo.bind(x);
-foo2 == foo // false
-foo2() == x // true
+var f = t.foo()
+f() == t // false
+f() == global // true
+```
+
+Unlike Ruby, we see that function objects do not belong to any receiver whatsoever.
+
+As for Ruby, the method named "method" return a `Method` instance. We could try to 
+simulate javascript's behavior:
+
+```ruby
+class Toto
+	def foo
+		return self.method(:bar).unbind
+	end
+
+	def bar
+		return self
+	end
+end
+
+t = Toto.new
+f = t.foo()
+p f.call() == t # Error: undefined method `call` for `UnboundMethod`
+```
+
+As you can see, Ruby is less permissive on its calling rules.
+To simulate Ruby's behavior in Javascript, we need to call `bind`, like so:
+
+```
+var t = {
+	foo: function() {
+		return this.bar.bind(this)
+	},
+	bar: function() {
+		return this
+	}
+}
+var f = t.foo()
+f() == t // true 
+f() == global // false
 ```
 
 ## The metamodel in prototype-based
@@ -639,8 +691,8 @@ of prototype-based language, since property lookup is done by traversing the ent
 prototype chain. In addition, objects in dynamic language can add, remove and 
 override any inherited properties without respecting any contract or semantics 
 previously established by its ancestors. Having a clean meta model to describe the
-relation between properties becomes less important but it is still important to
-understand.
+relation between properties becomes less important but it is still relevant to
+understand prototype-based languages.
 
 # References
 
