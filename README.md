@@ -211,7 +211,7 @@ end
 
 class B
 	super A
-	# Local property of `B`, belongs to `B::foo`
+	# Local property of `B`, belongs to `A::foo`
 	redef fun foo do return 2
 end
 
