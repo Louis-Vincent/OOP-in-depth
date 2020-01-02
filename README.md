@@ -1,7 +1,4 @@
----
-title: Object-Oriented and Prototype-based programming
-output: pdf_document
----
+# In-depth: Object-Oriented + prototype-based
 
 # Prelude
 
@@ -9,13 +6,6 @@ This guide/tutorial is about Object-oriented and prototype-based
 programming. This guide includes general knowledge about object-oriented
 paradigm and tries to clear out some misunderstandings or misconceptions
 programmers may have about OOP.
-
-This guide was originally called : "You don't know OOP", but it seems
-pretentious since this guide was roughly made without any correction and
-possibly many spelling mistakes. This is not really pollish, but it is an
-honest effort to share my view/knowledge on the subject and I hope people
-learn from it. This guide attempts to propose a good intuition about OOP
-without getting too fancy.
 
 # Object-oriented in general
 
