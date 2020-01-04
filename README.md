@@ -120,7 +120,8 @@ An interesting fact about parametric and ad hoc polymorphism is they are both _s
 polymorphism which mean they are resolved at compile time.
 
 **IMPORTANT** : subtyping doesn't equal inheritance.  
-**IMPORTANT2**: subtyping ~ specialization (it means the same thing)
+**IMPORTANT2**: in most mainstream language subtyping is equivalent (nominal typing).
+This is not true for all language, eg OCaml use structural typing.
 
 ## Wtf is inheritance?
 
